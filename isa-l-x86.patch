@@ -1,17 +1,17 @@
 ec_encode_data_{sse,avx,avx2} refer to asm routines available only for elf64
---- isa-l-2.29.0/erasure_code/ec_highlevel_func.c.orig	2020-02-27 02:29:49.000000000 +0100
-+++ isa-l-2.29.0/erasure_code/ec_highlevel_func.c	2020-05-26 20:43:45.280001729 +0200
-@@ -29,7 +29,7 @@
- #include <limits.h>
+--- isa-l-2.31.0/erasure_code/ec_highlevel_func.c.orig	2024-05-31 20:08:22.732599805 +0200
++++ isa-l-2.31.0/erasure_code/ec_highlevel_func.c	2024-05-31 20:15:56.370142239 +0200
+@@ -30,7 +30,7 @@
  #include "erasure_code.h"
+ #include "ec_base.h"		/* for GF tables */
  
 -#if __x86_64__  || __i386__ || _M_X64 || _M_IX86
 +#if __x86_64__  || _M_X64
  void ec_encode_data_sse(int len, int k, int rows, unsigned char *g_tbls, unsigned char **data,
  			unsigned char **coding)
  {
---- isa-l-2.29.0/erasure_code/ec_multibinary.asm.orig	2020-02-27 02:29:49.000000000 +0100
-+++ isa-l-2.29.0/erasure_code/ec_multibinary.asm	2020-05-26 21:01:48.970797539 +0200
+--- isa-l-2.31.0/erasure_code/ec_multibinary.asm.orig	2024-01-18 19:27:24.000000000 +0100
++++ isa-l-2.31.0/erasure_code/ec_multibinary.asm	2024-05-31 20:24:51.410577010 +0200
 @@ -36,6 +36,9 @@
   default rel
   [bits 64]
@@ -22,7 +22,7 @@ ec_encode_data_{sse,avx,avx2} refer to asm routines available only for elf64
   extern ec_encode_data_update_sse
   extern ec_encode_data_update_avx
   extern ec_encode_data_update_avx2
-@@ -62,9 +65,6 @@
+@@ -72,9 +75,6 @@ extern gf_vect_mad_base
  extern gf_vect_dot_prod_sse
  extern gf_vect_dot_prod_avx
  extern gf_vect_dot_prod_avx2
@@ -32,8 +32,8 @@ ec_encode_data_{sse,avx,avx2} refer to asm routines available only for elf64
  
  mbin_interface ec_encode_data
  mbin_interface gf_vect_dot_prod
-@@ -73,7 +73,7 @@
- mbin_interface gf_vect_mad
+@@ -84,7 +84,7 @@ mbin_interface gf_vect_mad
+ mbin_interface ec_init_tables
  
  %ifidn __OUTPUT_FORMAT__, elf32
 - mbin_dispatch_init5 ec_encode_data, ec_encode_data_base, ec_encode_data_sse, ec_encode_data_avx, ec_encode_data_avx2
