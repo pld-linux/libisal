@@ -1,23 +1,25 @@
---- isa-l-2.30.0/Makefile.am~	2020-11-07 02:08:16.000000000 +0100
-+++ isa-l-2.30.0/Makefile.am	2022-09-04 13:32:49.888076730 +0200
-@@ -58,16 +58,6 @@
+--- isa-l-2.31.0/Makefile.am.orig	2024-01-18 19:27:24.000000000 +0100
++++ isa-l-2.31.0/Makefile.am	2024-05-31 22:08:38.585464903 +0200
+@@ -59,18 +59,6 @@ lib_LTLIBRARIES = libisal.la
  pkginclude_HEADERS += $(sort ${extern_hdrs})
  libisal_la_SOURCES = ${lsrc}
  
 -if CPU_X86_64
+-ARCH=-Dx86_64
 -libisal_la_SOURCES += ${lsrc_x86_64}
 -other_tests += ${other_tests_x86_64}
 -endif
 -
 -if CPU_X86_32
+-ARCH=-Dx86_32
 -libisal_la_SOURCES += ${lsrc_x86_32}
 -other_tests += ${other_tests_x86_32}
 -endif
 -
  if CPU_AARCH64
+ ARCH=-Daarch64
  libisal_la_SOURCES += ${lsrc_aarch64}
- other_tests += ${other_tests_aarch64}
-@@ -78,9 +68,7 @@
+@@ -83,9 +71,7 @@ libisal_la_SOURCES += ${lsrc_ppc64le}
  other_tests += ${other_tests_ppc64le}
  endif
  
