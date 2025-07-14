@@ -78,9 +78,9 @@ Statyczna biblioteka ISA-L.
 
 %prep
 %setup -q -n isa-l-%{version}
-%patch0 -p1
+%patch -P0 -p1
 %ifarch x32
-%patch1 -p1
+%patch -P1 -p1
 %endif
 
 %build
