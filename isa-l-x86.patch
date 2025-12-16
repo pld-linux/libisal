@@ -1,15 +1,15 @@
 ec_encode_data_{sse,avx,avx2} refer to asm routines available only for elf64
---- isa-l-2.31.0/erasure_code/ec_highlevel_func.c.orig	2024-05-31 20:08:22.732599805 +0200
-+++ isa-l-2.31.0/erasure_code/ec_highlevel_func.c	2024-05-31 20:15:56.370142239 +0200
+--- isa-l-2.31.1/erasure_code/ec_highlevel_func.c.orig	2024-05-31 20:08:22.732599805 +0200
++++ isa-l-2.31.1/erasure_code/ec_highlevel_func.c	2024-05-31 20:15:56.370142239 +0200
 @@ -30,7 +30,7 @@
  #include "erasure_code.h"
- #include "ec_base.h"		/* for GF tables */
+ #include "ec_base.h" /* for GF tables */
  
--#if __x86_64__  || __i386__ || _M_X64 || _M_IX86
-+#if __x86_64__  || _M_X64
- void ec_encode_data_sse(int len, int k, int rows, unsigned char *g_tbls, unsigned char **data,
- 			unsigned char **coding)
- {
+-#if __x86_64__ || __i386__ || _M_X64 || _M_IX86
++#if __x86_64__ || _M_X64
+ void
+ ec_encode_data_sse(int len, int k, int rows, unsigned char *g_tbls, unsigned char **data,
+                    unsigned char **coding)
 --- isa-l-2.31.0/erasure_code/ec_multibinary.asm.orig	2024-01-18 19:27:24.000000000 +0100
 +++ isa-l-2.31.0/erasure_code/ec_multibinary.asm	2024-05-31 20:24:51.410577010 +0200
 @@ -36,6 +36,9 @@

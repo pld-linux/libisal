@@ -5,13 +5,13 @@
 Summary:	Optimized low-level functions library for storage systems
 Summary(pl.UTF-8):	Biblioteka zoptymalizowanych funkcji niskopoziomowych do systemów przechowywania danych
 Name:		libisal
-Version:	2.31.0
+Version:	2.31.1
 Release:	1
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/intel/isa-l/releases
 Source0:	https://github.com/intel/isa-l/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	5403379f5f8f8113a412f32d17471566
+# Source0-md5:	851eb1b98da53c4dc8b94e0119106f03
 Patch0:		isa-l-x86.patch
 Patch1:		x32.patch
 URL:		https://github.com/01org/isa-l
@@ -118,13 +118,13 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc LICENSE README.md Release_notes.txt
 %attr(755,root,root) %{_bindir}/igzip
-%attr(755,root,root) %{_libdir}/libisal.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libisal.so.2
+%{_libdir}/libisal.so.*.*.*
+%ghost %{_libdir}/libisal.so.2
 %{_mandir}/man1/igzip.1*
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libisal.so
+%{_libdir}/libisal.so
 %{_includedir}/isa-l
 %{_includedir}/isa-l.h
 %{_pkgconfigdir}/libisal.pc
