@@ -1,3 +1,4 @@
+# NOTE: for SIMD optimizations support on i686 stick to v2.31.1 (LEGACY-i686 branch)
 #
 # Conditional build:
 %bcond_without	static_libs	# static library
@@ -5,27 +6,28 @@
 Summary:	Optimized low-level functions library for storage systems
 Summary(pl.UTF-8):	Biblioteka zoptymalizowanych funkcji niskopoziomowych do systemów przechowywania danych
 Name:		libisal
-Version:	2.31.1
+Version:	2.32.0
 Release:	1
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/intel/isa-l/releases
 Source0:	https://github.com/intel/isa-l/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	851eb1b98da53c4dc8b94e0119106f03
-Patch0:		isa-l-x86.patch
+# Source0-md5:	e93b5195087a1060715abfa9e2b381dd
 Patch1:		x32.patch
 URL:		https://github.com/01org/isa-l
 BuildRequires:	autoconf >= 2.69
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	libtool >= 2:2
-%ifarch %{ix86} %{x8664}
-# nasm or yasm, whichever has higher "feature number" (max=10 for AVX512+)
-BuildRequires:	nasm >= 2.13
-BuildRequires:	yasm >= 1.2.0
+%ifarch %{x8664}
+BuildRequires:	nasm >= 2.14.01
 %endif
 %ifarch aarch64
 BuildRequires:	binutils >= 4:2.24
-BuildRequires:	gcc >= 6:4.7
+BuildRequires:	gcc >= 6:10.1
+%endif
+%ifarch riscv64
+BuildRequires:	binutils >= 4:2.39
+BuildRequires:	gcc >= 6:12.1
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -82,10 +84,7 @@ Statyczna biblioteka ISA-L.
 
 %prep
 %setup -q -n isa-l-%{version}
-%patch -P0 -p1
-%ifarch x32
 %patch -P1 -p1
-%endif
 
 %build
 %{__libtoolize}
@@ -95,13 +94,7 @@ Statyczna biblioteka ISA-L.
 %configure \
 	--disable-silent-rules \
 	%{!?with_static_libs:--disable-static}
-%{__make} \
-%ifarch %{ix86}
-	yasm_args="-f elf32" \
-%endif
-%ifarch x32
-	yasm_args="-f elfx32"
-%endif
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT

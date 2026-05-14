@@ -1,31 +1,21 @@
---- isa-l-2.31.0/Makefile.am.orig	2024-01-18 19:27:24.000000000 +0100
-+++ isa-l-2.31.0/Makefile.am	2024-05-31 22:08:38.585464903 +0200
-@@ -59,18 +59,6 @@ lib_LTLIBRARIES = libisal.la
- pkginclude_HEADERS += $(sort ${extern_hdrs})
- libisal_la_SOURCES = ${lsrc}
+--- isa-l-2.32.0/configure.ac.orig	2026-03-04 14:56:50.000000000 +0100
++++ isa-l-2.32.0/configure.ac	2026-05-14 21:09:37.443435923 +0200
+@@ -23,6 +23,10 @@ AM_PROG_AS
  
--if CPU_X86_64
--ARCH=-Dx86_64
--libisal_la_SOURCES += ${lsrc_x86_64}
--other_tests += ${other_tests_x86_64}
--endif
--
--if CPU_X86_32
--ARCH=-Dx86_32
--libisal_la_SOURCES += ${lsrc_x86_32}
--other_tests += ${other_tests_x86_32}
--endif
--
- if CPU_AARCH64
- ARCH=-Daarch64
- libisal_la_SOURCES += ${lsrc_aarch64}
-@@ -83,9 +71,7 @@ libisal_la_SOURCES += ${lsrc_ppc64le}
- other_tests += ${other_tests_ppc64le}
- endif
- 
--if CPU_UNDEFINED
- libisal_la_SOURCES += ${lsrc_base_aliases}
--endif
- 
- nobase_include_HEADERS = isa-l.h
- libisal_la_LDFLAGS = $(AM_LDFLAGS) \
+ AC_CANONICAL_HOST
+ CPU=""
++
++AS_CASE([$host],
++  [x86_64-*-gnux32], [],
++  [
+ AS_CASE([$host_cpu],
+   [x86_64], [CPU="x86_64"],
+   [amd64], [CPU="x86_64"],
+@@ -32,6 +36,7 @@ AS_CASE([$host_cpu],
+   [ppc64le], [CPU="ppc64le"],
+   [riscv64], [CPU="riscv64"],
+ )
++])
+ AM_CONDITIONAL([CPU_X86_64], [test "$CPU" = "x86_64"])
+ AM_CONDITIONAL([CPU_AARCH64], [test "$CPU" = "aarch64"])
+ AM_CONDITIONAL([CPU_PPC64LE], [test "$CPU" = "ppc64le"])
