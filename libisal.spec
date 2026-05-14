@@ -18,10 +18,14 @@ URL:		https://github.com/01org/isa-l
 BuildRequires:	autoconf >= 2.69
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	libtool >= 2:2
-%ifarch %{ix86} %{x8664} x32
+%ifarch %{ix86} %{x8664}
 # nasm or yasm, whichever has higher "feature number" (max=10 for AVX512+)
 BuildRequires:	nasm >= 2.13
 BuildRequires:	yasm >= 1.2.0
+%endif
+%ifarch aarch64
+BuildRequires:	binutils >= 4:2.24
+BuildRequires:	gcc >= 6:4.7
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
